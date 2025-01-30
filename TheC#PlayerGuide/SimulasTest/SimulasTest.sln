@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulasTest", "SimulasTest.csproj", "{636B34F8-7729-48FE-B0D3-AD248002B21A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulasTestUnitTests", "..\SimulasTestUnitTests\SimulasTestUnitTests.csproj", "{BE65F828-321A-4003-BD11-763B9B6C44F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{636B34F8-7729-48FE-B0D3-AD248002B21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{636B34F8-7729-48FE-B0D3-AD248002B21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{636B34F8-7729-48FE-B0D3-AD248002B21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE65F828-321A-4003-BD11-763B9B6C44F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE65F828-321A-4003-BD11-763B9B6C44F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE65F828-321A-4003-BD11-763B9B6C44F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE65F828-321A-4003-BD11-763B9B6C44F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,15 +2,15 @@
 
 namespace SimulasTest;
 
+public enum BoxState
+{
+    Open,
+    Closed,
+    Locked
+};
+
 public static class Entrance 
 {
-    public enum BoxState
-    {
-        Open,
-        Closed,
-        Locked
-    };
-
     public static BoxState TransitionState(BoxState curState, string code)
     {
         code = code.ToLower();
