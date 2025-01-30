@@ -4,12 +4,43 @@ namespace SimulasTest;
 
 public static class Entrance 
 {
-    enum BoxState
+    public enum BoxState
     {
         Open,
         Closed,
         Locked
     };
+
+    public static BoxState TransitionState(BoxState curState, string code)
+    {
+        code = code.ToLower();
+        switch (curState)
+        {
+            case BoxState.Open:
+                if (code == "close")
+                {
+                    curState = BoxState.Closed;
+                }
+                break;
+            case BoxState.Closed:
+                if (code == "lock")
+                {
+                    curState = BoxState.Locked;
+                }
+                else if (code == "open")
+                {
+                    curState = BoxState.Open;
+                }
+                break;
+            case BoxState.Locked:
+                if (code == "unlock")
+                {
+                    curState = BoxState.Closed;
+                }
+                break;
+        }
+        return curState;
+    }
 
     public static void Main()
     {
@@ -20,32 +51,8 @@ public static class Entrance
             var choice = AnsiConsole.Prompt(
                     new TextPrompt<string>($"The chest is [green]{boxState.ToString()}[/]. What do you want to do?")
                     .PromptStyle("cyan"));
-            choice = choice.ToLower();
-            switch(boxState)
-            {
-                case BoxState.Open:
-                    if(choice == "close")
-                    {
-                        boxState = BoxState.Closed;
-                    }
-                    break;
-                case BoxState.Closed:
-                    if(choice == "lock")
-                    {
-                        boxState = BoxState.Locked;
-                    }
-                    else if(choice == "open")
-                    {
-                        boxState = BoxState.Open;
-                    }
-                    break;
-                case BoxState.Locked:
-                    if(choice == "unlock")
-                    {
-                        boxState = BoxState.Closed;
-                    }
-                    break;
-            }
+            
+            boxState = TransitionState(boxState, choice);
         }
     }
 }
