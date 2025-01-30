@@ -11,6 +11,7 @@ public class TicTacToe
 
     private char[][] tttMatrix = new char[ROW_COL_NUM][];
 
+
     public TicTacToe()
     {
         tttMatrix = new char[ROW_COL_NUM][];
@@ -23,6 +24,7 @@ public class TicTacToe
             }
         }
     }
+
 
     enum Position
     {
@@ -37,6 +39,7 @@ public class TicTacToe
         BottomRight
     }
 
+
     enum WinFlag
     {
         None,
@@ -44,6 +47,7 @@ public class TicTacToe
         User_X_Win,
         No_One_Win
     }
+
 
     private void PrintTTTMaxtrix()
     {
@@ -56,6 +60,7 @@ public class TicTacToe
             AnsiConsole.MarkupLine("\n-------");
         }
     }
+
 
     private Position AskUserToInputNextPos()
     {
@@ -78,6 +83,120 @@ public class TicTacToe
         return pos;
     }
 
+
+    private WinFlag JudgeWinState()
+    {
+        // Judge row
+        char ch;
+        bool hasWinner;
+        WinFlag winFlag = WinFlag.None;
+        for (int i = 0; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
+        {
+            ch = this.tttMatrix[i][0];
+            hasWinner = true;
+            for (int j = 1; j < ROW_COL_NUM; j++)
+            {
+                if (!this.tttMatrix[i][j].Equals(ch))
+                {
+                    hasWinner = false;
+                    break;
+                }
+            }
+            if (hasWinner && ch != EMPTY)
+            {
+                winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
+                AnsiConsole.MarkupLine("Judge row", winFlag);
+            }
+        }
+
+        // Judge col
+        for (int j = 0; j < ROW_COL_NUM && winFlag == WinFlag.None; j++)
+        {
+            ch = this.tttMatrix[0][j];
+            hasWinner = true;
+            for (int i = 1; i < ROW_COL_NUM; i++)
+            {
+                if (!this.tttMatrix[i][j].Equals(ch))
+                {
+                    hasWinner = false;
+                    break;
+                }
+            }
+            if (hasWinner && ch != EMPTY)
+            {
+                winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
+                AnsiConsole.MarkupLine("Judge col", winFlag);
+            }
+        }
+
+        // Judge across
+        ch = this.tttMatrix[0][0];
+        hasWinner = true;
+        for (int i = 1; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
+        {
+            for (int j = 1; j < ROW_COL_NUM; j++)
+            {
+                if (i == j && !this.tttMatrix[i][j].Equals(ch))
+                {
+                    hasWinner = false;
+                    break;
+                }
+            }
+            if (!hasWinner) break;
+        }
+        if (hasWinner && ch != EMPTY)
+        {
+            winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
+            AnsiConsole.MarkupLine("Judge across", winFlag);
+        }
+
+        // Judge diagonally across
+        ch = this.tttMatrix[0][ROW_COL_NUM - 1];
+        hasWinner = true;
+        for (int i = 0; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
+        {
+            for (int j = ROW_COL_NUM - 2; j >= 0; j--)
+            {
+                if ((i + j) == ROW_COL_NUM - 1 && !this.tttMatrix[i][j].Equals(ch))
+                {
+                    hasWinner = false;
+                    break;
+                }
+            }
+            if (!hasWinner) break;
+        }
+        if (hasWinner && ch != EMPTY)
+        {
+            winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
+            AnsiConsole.MarkupLine("Judge diagonally across", winFlag);
+        }
+
+        // Judge if no one wins
+        bool noWinner = true;
+        for (int i = 0; i < ROW_COL_NUM; i++)
+        {
+            for (int j = 0; j < ROW_COL_NUM; j++)
+            {
+                if (this.tttMatrix[i][j] == EMPTY)
+                {
+                    noWinner = false;
+                    break;
+                }
+            }
+            if (!noWinner)
+            {
+                break;
+            }
+        }
+        if (noWinner)
+        {
+            winFlag = WinFlag.No_One_Win;
+        }
+
+        return winFlag;
+    }
+
+
     public void Run()
     {
         WinFlag winFlag = WinFlag.None;
@@ -88,116 +207,12 @@ public class TicTacToe
             AnsiConsole.MarkupLine($"It is {user}'s turn.");
             PrintTTTMaxtrix();
 
-            Position pos = AskUserToInputNextPos();
+            Position pos = this.AskUserToInputNextPos();
             int rowInMatrix = (int)pos / ROW_COL_NUM;
             int colInMatrix = (int)pos % ROW_COL_NUM;
             this.tttMatrix[rowInMatrix][colInMatrix] = user;
 
-            // Judge row
-            char ch;
-            bool hasWinner;
-            for (int i = 0; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
-            {
-                ch = this.tttMatrix[i][0];
-                hasWinner = true;
-                for (int j = 1; j < ROW_COL_NUM; j++)
-                {
-                    if (!this.tttMatrix[i][j].Equals(ch))
-                    {
-                        hasWinner = false;
-                        break;
-                    }
-                }
-                if (hasWinner && ch != EMPTY)
-                {
-                    winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
-                    AnsiConsole.MarkupLine("Judge row", winFlag);
-                }
-            }
-
-            // Judge col
-            for (int j = 0; j < ROW_COL_NUM && winFlag == WinFlag.None; j++)
-            {
-                ch = this.tttMatrix[0][j];
-                hasWinner = true;
-                for (int i = 1; i < ROW_COL_NUM; i++)
-                {
-                    if (!this.tttMatrix[i][j].Equals(ch))
-                    {
-                        hasWinner = false;
-                        break;
-                    }
-                }
-                if (hasWinner && ch != EMPTY)
-                {
-                    winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
-                    AnsiConsole.MarkupLine("Judge col", winFlag);
-                }
-            }
-
-            // Judge across
-            ch = this.tttMatrix[0][0];
-            hasWinner = true;
-            for (int i = 1; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
-            {
-                for (int j = 1; j < ROW_COL_NUM; j++)
-                {
-                    if (i == j && !this.tttMatrix[i][j].Equals(ch))
-                    {
-                        hasWinner = false;
-                        break;
-                    }
-                }
-                if (!hasWinner) break;
-            }
-            if (hasWinner && ch != EMPTY)
-            {
-                winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
-                AnsiConsole.MarkupLine("Judge across", winFlag);
-            }
-
-            // Judge diagonally across
-            ch = this.tttMatrix[0][ROW_COL_NUM - 1];
-            hasWinner = true;
-            for (int i = 0; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
-            {
-                for (int j = ROW_COL_NUM - 2; j >= 0; j--)
-                {
-                    if ((i + j) == ROW_COL_NUM - 1 && !this.tttMatrix[i][j].Equals(ch))
-                    {
-                        hasWinner = false;
-                        break;
-                    }
-                }
-                if (!hasWinner) break;
-            }
-            if (hasWinner && ch != EMPTY)
-            {
-                winFlag = ch == USER_O ? WinFlag.User_O_Win : WinFlag.User_X_Win;
-                AnsiConsole.MarkupLine("Judge diagonally across", winFlag);
-            }
-
-            // Judge if no one wins
-            bool noWinner = true;
-            for (int i = 0; i < ROW_COL_NUM; i++)
-            {
-                for (int j = 0; j < ROW_COL_NUM; j++)
-                {
-                    if (this.tttMatrix[i][j] == EMPTY)
-                    {
-                        noWinner = false;
-                        break;
-                    }
-                }
-                if (!noWinner)
-                {
-                    break;
-                }
-            }
-            if (noWinner)
-            {
-                winFlag = WinFlag.No_One_Win;
-            }
+            winFlag = this.JudgeWinState();
 
             AnsiConsole.Clear();
             isOTurn = !isOTurn;
