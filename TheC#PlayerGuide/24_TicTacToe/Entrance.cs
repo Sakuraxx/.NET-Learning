@@ -57,6 +57,27 @@ public class TicTacToe
         }
     }
 
+    private Position AskUserToInputNextPos()
+    {
+        List<Position> posOptions = new();
+        for (int i = 0; i < ROW_COL_NUM; i++)
+        {
+            for (int j = 0; j < ROW_COL_NUM; j++)
+            {
+                if (tttMatrix[i][j] == ' ')
+                {
+                    posOptions.Add((Position)(i * ROW_COL_NUM + j));
+                }
+            }
+        }
+
+        Position pos = AnsiConsole.Prompt(
+            new SelectionPrompt<Position>()
+            .Title("What square do you want to play in?")
+            .AddChoices([.. posOptions]));
+        return pos;
+    }
+
     public void Run()
     {
         WinFlag winFlag = WinFlag.None;
@@ -67,23 +88,7 @@ public class TicTacToe
             AnsiConsole.MarkupLine($"It is {user}'s turn.");
             PrintTTTMaxtrix();
 
-            List<Position> posOptions = new();
-            for (int i = 0; i < ROW_COL_NUM; i++)
-            {
-                for(int j = 0; j < ROW_COL_NUM; j++)
-                {
-                    if(tttMatrix[i][j] == ' ')
-                    {
-                        posOptions.Add((Position)(i * ROW_COL_NUM + j));
-                    }
-                }
-            }
-
-            Position pos = AnsiConsole.Prompt(
-                new SelectionPrompt<Position>()
-                .Title("What square do you want to play in?")
-                .AddChoices([.. posOptions]));
-
+            Position pos = AskUserToInputNextPos();
             int rowInMatrix = (int)pos / ROW_COL_NUM;
             int colInMatrix = (int)pos % ROW_COL_NUM;
             this.tttMatrix[rowInMatrix][colInMatrix] = user;
@@ -133,11 +138,11 @@ public class TicTacToe
             // Judge across
             ch = this.tttMatrix[0][0];
             hasWinner = true;
-            for (int i = 1; i <  ROW_COL_NUM && winFlag == WinFlag.None; i++)
+            for (int i = 1; i < ROW_COL_NUM && winFlag == WinFlag.None; i++)
             {
                 for (int j = 1; j < ROW_COL_NUM; j++)
                 {
-                    if(i == j && !this.tttMatrix[i][j].Equals(ch))
+                    if (i == j && !this.tttMatrix[i][j].Equals(ch))
                     {
                         hasWinner = false;
                         break;
@@ -174,9 +179,9 @@ public class TicTacToe
 
             // Judge if no one wins
             bool noWinner = true;
-            for(int i = 0; i < ROW_COL_NUM; i++)
+            for (int i = 0; i < ROW_COL_NUM; i++)
             {
-                for(int j = 0; j < ROW_COL_NUM; j++)
+                for (int j = 0; j < ROW_COL_NUM; j++)
                 {
                     if (this.tttMatrix[i][j] == EMPTY)
                     {
@@ -189,7 +194,7 @@ public class TicTacToe
                     break;
                 }
             }
-            if (noWinner) 
+            if (noWinner)
             {
                 winFlag = WinFlag.No_One_Win;
             }
