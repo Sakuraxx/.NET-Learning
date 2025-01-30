@@ -197,11 +197,29 @@ public class TicTacToe
     }
 
 
+    private void ShowWinner(WinFlag winFlag)
+    {
+        PrintTTTMaxtrix();
+        switch (winFlag)
+        {
+            case WinFlag.No_One_Win:
+                AnsiConsole.MarkupLine("No one wins!");
+                break;
+            case WinFlag.User_X_Win:
+                AnsiConsole.MarkupLine("User X wins!");
+                break;
+            case WinFlag.User_O_Win:
+                AnsiConsole.MarkupLine("User O wins!");
+                break;
+        }
+    }
+
+
     public void Run()
     {
         WinFlag winFlag = WinFlag.None;
         bool isOTurn = true;
-        while(winFlag == WinFlag.None)
+        while (winFlag == WinFlag.None)
         {
             char user = isOTurn ? USER_O : USER_X;
             AnsiConsole.MarkupLine($"It is {user}'s turn.");
@@ -218,19 +236,7 @@ public class TicTacToe
             isOTurn = !isOTurn;
         }
 
-        PrintTTTMaxtrix();
-        switch (winFlag)
-        {
-            case WinFlag.No_One_Win:
-                AnsiConsole.MarkupLine("No one wins!");
-                break;
-            case WinFlag.User_X_Win:
-                AnsiConsole.MarkupLine("User X wins!");
-                break;
-            case WinFlag.User_O_Win:
-                AnsiConsole.MarkupLine("User O wins!");
-                break;
-        }
+        ShowWinner(winFlag);
     }
 }
 
