@@ -17,6 +17,7 @@ public class GameController
     private static readonly int COL_NUM = 4;
 
     private readonly Point fountainRoomPosition = new Point(0, 2);
+    private readonly Point entranceRoomPostion = new Point(0, 0);
 
     private Room[][] rooms = new Room[ROW_NUM][];
 
@@ -50,17 +51,17 @@ public class GameController
     public PlayAction AskPlayerToChooseNextAction(Point playPosition)
     {
         ActionOption[] actionOptions = [ActionOption.MoveNorth, ActionOption.MoveSouth, ActionOption.MoveWest, ActionOption.MoveEast]; ;
-        if(playPosition == this.fountainRoomPosition)
+        if (playPosition == this.fountainRoomPosition)
         {
-            actionOptions.Append(ActionOption.EnableFountain);
+            actionOptions = actionOptions.Append(ActionOption.EnableFountain).ToArray();
         }
         ActionOption option = AnsiConsole.Prompt(
                                 new SelectionPrompt<ActionOption>()
                                 .Title("What do you want to do?")
                                 .AddChoices(actionOptions));
-        
+
         PlayAction action = null;
-        switch(option)
+        switch (option)
         {
             case ActionOption.MoveNorth:
                 action = new MoveNorthPlayAction();
@@ -82,8 +83,36 @@ public class GameController
     {
         Player player = new Player(0, ROW_NUM, 0, COL_NUM);
 
-        player.Action = this.AskPlayerToChooseNextAction(player.Position);
-        player.Play();
-        AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
+        do
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
+
+            if (player.Position == this.entranceRoomPostion)
+            {
+                if (((FountainRoom)this.rooms[0][2]).IsActived)
+                {
+                    AnsiConsole.MarkupLine("The Fountain of Objects has been reactivated, and you have escaped with your life!");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("You see light coming from the cavern entrance.");
+                }
+            }
+            else if(player.Position == this.fountainRoomPosition)
+            {
+                if (((FountainRoom)this.rooms[0][2]).IsActived)
+                {
+                    AnsiConsole.MarkupLine("You hear the rushing waters from the Fountain of Objects. It has been reactivated!");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("You hear water dripping in this room. The Fountain of Objects is here!");
+                }
+            }
+
+            player.Action = this.AskPlayerToChooseNextAction(player.Position);
+            player.Play();
+        }while(true);
     }
 }
