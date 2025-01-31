@@ -23,12 +23,35 @@ public class Player
 
     public void MoveNorth()
     {
-        if(this.Position.Y + 1 <= this.XMaxBound)
+        if(this.Position.Y + 1 <= this.YMaxBound)
         {
             this.Position.Y += 1;
         }
     }
 
+    public void MoveSouth()
+    {
+        if(this.Position.Y - 1 >= this.YMinBound)
+        {
+            this.Position.Y -= 1;
+        }
+    }
+
+    public void MoveWest()
+    {
+        if(this.Position.X - 1 >= this.XMinBound)
+        {
+            this.Position.X -= 1;
+        }
+    }
+
+    public void MoveEast()
+    {
+        if(this.Position.X + 1 <= this.XMaxBound)
+        {
+            this.Position.X += 1;
+        }
+    }
 
     public Point Position { get; set; } = new Point();
 

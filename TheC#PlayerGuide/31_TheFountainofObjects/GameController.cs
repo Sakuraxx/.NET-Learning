@@ -38,9 +38,21 @@ public class GameController
     public void Run()
     {
         Player player = new Player(0, ROW_NUM, 0, COL_NUM);
+        
         player.Action = new MoveNorthPlayAction();
         player.Play();
+        AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
 
+        player.Action = new MoveEastPlayActioin();
+        player.Play();
+        AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
+
+        player.Action = new MoveSouthPlayAction();
+        player.Play();
+        AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
+
+        player.Action = new MoveWestPlayAction();
+        player.Play();
         AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
     }
 }
