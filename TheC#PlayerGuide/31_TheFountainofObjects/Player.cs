@@ -19,12 +19,25 @@ public class Player
     private int YMinBound;
     private int YMaxBound;
 
-    public Player(int minX, int maxX, int minY, int maxY)
+    private Room[][] rooms;
+
+    public Player(int minX, int maxX, int minY, int maxY, Room[][] rooms)
     {
         this.XMinBound = minX;
         this.XMaxBound = maxX;
         this.YMinBound = minY;
         this.YMaxBound = maxY;
+        this.rooms = rooms;
+    }
+
+    public void ActiveFountainRoom()
+    {
+        int r = this.Position.Y;
+        int c = this.Position.X;
+        if (this.rooms[r][c] is FountainRoom fountain)
+        {
+            fountain.IsActived = true;
+        }
     }
 
     public void MoveNorth()

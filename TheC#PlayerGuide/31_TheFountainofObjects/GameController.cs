@@ -16,7 +16,7 @@ public class GameController
     private static readonly int ROW_NUM = 4;
     private static readonly int COL_NUM = 4;
 
-    private readonly Point fountainRoomPosition = new Point(0, 2);
+    private readonly Point fountainRoomPosition = new Point(2, 0);
     private readonly Point entranceRoomPostion = new Point(0, 0);
 
     private Room[][] rooms = new Room[ROW_NUM][];
@@ -75,24 +75,28 @@ public class GameController
             case ActionOption.MoveEast:
                 action = new MoveEastPlayActioin();
                 break;
+            case ActionOption.EnableFountain:
+                action = new ActiveFountainRoomPlayAction();
+                break;
         }
         return action;
     }
 
     public void Run()
     {
-        Player player = new Player(0, ROW_NUM, 0, COL_NUM);
+        Player player = new Player(0, ROW_NUM, 0, COL_NUM, this.rooms);
 
         do
         {
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.X}, Column={player.Position.Y}).");
+            AnsiConsole.MarkupLine($"You are in the room at (Row={player.Position.Y}, Column={player.Position.X}).");
 
             if (player.Position == this.entranceRoomPostion)
             {
                 if (((FountainRoom)this.rooms[0][2]).IsActived)
                 {
                     AnsiConsole.MarkupLine("The Fountain of Objects has been reactivated, and you have escaped with your life!");
+                    break;
                 }
                 else
                 {
