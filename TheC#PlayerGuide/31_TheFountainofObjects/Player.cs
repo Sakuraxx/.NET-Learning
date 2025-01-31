@@ -4,6 +4,12 @@ public record Point
 {
     public int X;
     public int Y;
+
+    public Point(int x, int y)
+    {
+        this.X = x;
+        this.Y = y;
+    }
 }
 
 public class Player
@@ -53,7 +59,7 @@ public class Player
         }
     }
 
-    public Point Position { get; set; } = new Point();
+    public Point Position { get; set; } = new Point(0, 0);
 
     public PlayAction Action { get; set; }
 
