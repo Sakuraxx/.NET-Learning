@@ -4,6 +4,9 @@ public class SouthCommand : RobotCommand
 {
     public override void Run(Robot robot)
     {
-        robot.Y -= 1;
+        if (robot.IsPowered)
+        {
+            robot.Y -= 1;
+        }
     }
 }
