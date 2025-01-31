@@ -34,6 +34,7 @@ public class GameController
                 }
                 else if (i == 0 && j == 2)
                 {
+                    room = new FountainRoom();
                     room.Type = RoomType.Fountain;
                 }
                 this.rooms[i][j] = room;
