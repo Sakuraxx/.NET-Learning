@@ -6,6 +6,7 @@ public class GameController
     {
         CharberryTree tree = new CharberryTree();
         Notifer notifer = new Notifer(tree);
+        Harvester harvester = new Harvester(tree);
         while (true)
             tree.MaybeGrow();
     }
