@@ -2,9 +2,9 @@
 
 namespace AdvancedTopics.Delegates;
 
-public class Entrance
+public class GameController
 {
-    public enum MethodsType
+    private enum MethodsType
     {
         IsEven,
         IsPositive,
@@ -26,7 +26,7 @@ public class Entrance
         return number % 10 == 0;
     }
 
-    public Sieve CreateSieve(MethodsType methodsType)
+    private Sieve CreateSieve(MethodsType methodsType)
     {
         switch (methodsType) 
         {
@@ -40,20 +40,19 @@ public class Entrance
         return null;
     }
 
-
-    public static void Main(string[] args)
+    public void Run()
     {
-        Entrance entrance = new Entrance();
         MethodsType methodsType = AnsiConsole.Prompt(
             new SelectionPrompt<MethodsType>()
             .Title("What kind of filter do you want to use?")
             .AddChoices([MethodsType.IsEven, MethodsType.IsPositive, MethodsType.IsMultiplesOfTen]));
-        Sieve? sieve = entrance.CreateSieve(methodsType);
+        Sieve? sieve = this.CreateSieve(methodsType);
         AnsiConsole.Clear();
+
         do
         {
             int number = AnsiConsole.Prompt(new TextPrompt<int>("Please input a number:"));
-            if(sieve.IsGood(number))
+            if (sieve.IsGood(number))
             {
                 AnsiConsole.MarkupLine($"Number [green]{number}[/] is GOOD.");
             }
@@ -62,5 +61,11 @@ public class Entrance
                 AnsiConsole.MarkupLine($"Number [red]{number}[/] is BAD.");
             }
         } while (true);
+    }
+
+    public static void Main(string[] args)
+    {
+        GameController gameController = new GameController();
+        gameController.Run();
     }
 }
