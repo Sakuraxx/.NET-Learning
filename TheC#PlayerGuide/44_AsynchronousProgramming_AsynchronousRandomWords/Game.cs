@@ -28,14 +28,22 @@ public class Game
         return attemptTiems;
     }
 
+    public Task<int> RandomlyRecreateAsync(string word)
+    {
+        return Task.Run(async () =>
+        {
+            return this.RandomlyRecreate(word);
+        });
+    }
 
-    public static void Main(string[] args)
+
+    public static async Task Main(string[] args)
     {
         Game game = new Game();
         string word = AnsiConsole.Prompt(
             new TextPrompt<string>("Please input a word, no more than 5 characters.")
             .PromptStyle("cyan"));
-        int times = game.RandomlyRecreate(word);
+        int times = await game.RandomlyRecreateAsync(word);
         AnsiConsole.MarkupLineInterpolated($"Take [green]{times}[/] random creations to recreate this word.");
     }
 
