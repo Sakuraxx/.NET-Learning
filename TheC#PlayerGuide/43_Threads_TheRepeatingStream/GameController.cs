@@ -23,7 +23,31 @@ public class GameController
             }
             recNumbers.Numbers = result;
             AnsiConsole.MarkupLineInterpolated($"Generate: [blue]{stringBuilder.ToString()}[/]");
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
+        }
+    }
+
+    public static void AskUserToInputKey(object? recentNumbers)
+    {
+        if (recentNumbers == null || recentNumbers is not RecentNumbers) { return; }
+        RecentNumbers recNumbers = (RecentNumbers)recentNumbers;
+        while (true)
+        {
+            string key = AnsiConsole.Prompt(
+                new TextPrompt<string>("Please input a key")
+                .PromptStyle("cyan"));
+            string lastTwoCharsInKey = key.Substring(key.Length - 2);
+            List<int> nums = recNumbers.Numbers;
+            string lastTwoCharsInRecentNumbers = nums[^2].ToString() + nums[^1].ToString();
+            
+            if (lastTwoCharsInKey.Equals(lastTwoCharsInRecentNumbers))
+            {
+                AnsiConsole.MarkupLine("[green]Identified the repeat![/]");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Wrong key![/]");
+            }
         }
     }
 
@@ -32,6 +56,9 @@ public class GameController
         RecentNumbers recentNumbers = new RecentNumbers();
         Thread randomNumGenThread = new Thread(GenerateRandomNumbers);
         randomNumGenThread.Start(recentNumbers);
+
+        Thread askUserInputKey = new Thread(AskUserToInputKey);
+        askUserInputKey.Start(recentNumbers);
     }
 
 }
