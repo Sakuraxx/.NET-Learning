@@ -20,7 +20,8 @@ public class GameController
             {
                 num = random.Next(10);
             } while (numList.FirstOrDefault(-1) != num && numList.Contains(num));
-            AnsiConsole.MarkupLineInterpolated($"It's {curPlayer} turn, the number is {num}");
+            AnsiConsole.MarkupLineInterpolated($"It's {curPlayer} turn, the number is [cyan]{num}[/]. Please enter any key to continue.");
+            Console.ReadKey();
 
             if (numList.FirstOrDefault(-1) == num)
             {
@@ -29,7 +30,6 @@ public class GameController
 
             numList.Add(num);
 
-            AnsiConsole.Prompt(new TextPrompt<string>("Please enter any key to continue."));
 
             isPlayerATurn = !isPlayerATurn;
 
@@ -40,6 +40,13 @@ public class GameController
     public static void Main(string[] args)
     {
         GameController controller = new GameController();
-        controller.Run();
+        try
+        {
+            controller.Run();
+        }
+        catch (Exception e) 
+        { 
+            Console.WriteLine(e.ToString());
+        }
     }
 }
