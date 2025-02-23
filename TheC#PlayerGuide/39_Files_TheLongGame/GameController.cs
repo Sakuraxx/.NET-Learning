@@ -74,11 +74,20 @@ public class GameController
     }
 
 
+    private void SavePlayResult(string username, List<string> res)
+    {
+        string fileName = username + ".txt";
+        File.AppendAllLines(fileName, res);
+        AnsiConsole.MarkupLineInterpolated($"Your play result has been saved to [green]{fileName}[/]!");
+    }
+
+
     public void Run()
     {
         string username = this.GetValidUserName();
         int lastScore =  this.GetLastScore(username);
         List<string> playRes = this.PlayGame(lastScore);
+        this.SavePlayResult(username, playRes);
     }
 
 
