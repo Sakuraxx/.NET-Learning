@@ -48,6 +48,16 @@ public class GameController
             string? lastLine = File.ReadLines(fileName).DefaultIfEmpty(null).Last();
             lastScore = Convert.ToInt32(lastLine?.Split(',')[1]);
         }
+
+        if(lastScore > 0)
+        {
+            AnsiConsole.MarkupLineInterpolated($"Hi, [yellow]{username}[/]. Your last score is [green]{lastScore}[/]!");
+        }
+        else
+        {
+            AnsiConsole.MarkupLineInterpolated($"Hi, [yellow]{username}[/]. Have fun!");
+        }
+
         return lastScore;
     }
 
