@@ -8,7 +8,7 @@ public class GameController
         {
             if(nums[i] % 2 == 0)
             {
-                res.Add(i);
+                res.Add(nums[i]);
             }
         }
 
