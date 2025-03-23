@@ -33,6 +33,14 @@ public class GameController
     }
 
 
+    public IEnumerable<int> MethodCallBasedQueryThreeLens(int[] nums)
+    {
+        return nums.Where(n => n % 2 == 0)
+                    .OrderBy(n => n)
+                    .Select(n => n * 2);
+    }
+
+
     public void Run()
     {
         int[] nums = { 1, 9, 2, 8, 3, 7, 4, 6, 5 };
