@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SimpleToDoList.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="45"
+             x:Class="SimpleToDoList.Views.ToDoItemView"
+	         x:DataType="vm:ToDoItemViewModel">
+	<Grid ColumnDefinitions="Auto,*,Auto" Margin="4">
+		<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+
+		<TextBlock Grid.Column="1"
+                   Text="{Binding Content}"
+                   VerticalAlignment="Center"
+                   Margin="10,0"/>
+	</Grid>
+</UserControl>
