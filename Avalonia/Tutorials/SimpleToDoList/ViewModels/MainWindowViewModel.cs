@@ -34,8 +34,11 @@ namespace SimpleToDoList.ViewModels
         [RelayCommand(CanExecute = nameof(CanAddItem))]
         private void AddItem()
         {
+            var newItemModel = new Models.ToDoItem() { Content = NewItemContent };
+            var newItemViewModel = new ToDoItemViewModel(newItemModel, item => RemoveItem(item));
+
             // Add a new item to the list
-            ToDoItems.Add(new ToDoItemViewModel() { Content = NewItemContent });
+            ToDoItems.Add(newItemViewModel);
 
             // reset the NewItemContent
             NewItemContent = null;

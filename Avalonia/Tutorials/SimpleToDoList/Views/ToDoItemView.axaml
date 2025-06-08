@@ -13,5 +13,9 @@
                    Text="{Binding Content}"
                    VerticalAlignment="Center"
                    Margin="10,0"/>
+
+		<Button Grid.Column="2"
+					Content="Remove"
+					Command="{Binding RemoveCommand}"/>
 	</Grid>
 </UserControl>

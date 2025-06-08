@@ -1,5 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿#region Usings
+
+using System;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SimpleToDoList.Models;
+
+#endregion Usings
 
 namespace SimpleToDoList.ViewModels
 {
@@ -20,6 +26,14 @@ namespace SimpleToDoList.ViewModels
         [ObservableProperty]
         private string? _content;
 
+        private readonly Action<ToDoItemViewModel> _onRemove;
+
+        [RelayCommand]
+        private void Remove()
+        {
+            _onRemove?.Invoke(this);
+        }
+
         /// <summary>
         /// Creates a new blank ToDoItemViewModel
         /// </summary>
@@ -32,11 +46,13 @@ namespace SimpleToDoList.ViewModels
         /// Creates a new ToDoItemViewModel for the given <see cref="Models.ToDoItem"/>
         /// </summary>
         /// <param name="item">The item to load</param>
-        public ToDoItemViewModel(ToDoItem item)
+        /// <param name="onRemove">The remove action</param>
+        public ToDoItemViewModel(ToDoItem item, Action<ToDoItemViewModel> onRemove)
         {
             // Init the properties with the given values
             IsChecked = item.IsChecked;
             Content = item.Content;
+            _onRemove = onRemove;
         }
 
         /// <summary>

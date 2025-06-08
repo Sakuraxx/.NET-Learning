@@ -1,4 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿#region Usings
+
+using CommunityToolkit.Mvvm.ComponentModel;
+
+#endregion Usings
 
 namespace SimpleToDoList.ViewModels
 {
