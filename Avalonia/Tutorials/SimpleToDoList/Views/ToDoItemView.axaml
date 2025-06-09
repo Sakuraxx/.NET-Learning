@@ -6,16 +6,24 @@
              mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="45"
              x:Class="SimpleToDoList.Views.ToDoItemView"
 	         x:DataType="vm:ToDoItemViewModel">
-	<Grid ColumnDefinitions="Auto,*,Auto" Margin="4">
-		<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
 
-		<TextBlock Grid.Column="1"
-                   Text="{Binding Content}"
-                   VerticalAlignment="Center"
-                   Margin="10,0"/>
+	<UserControl.Styles>
+		<Style Selector="CheckBox.HoverableArea:pointerover /template/ Grid#RootGrid">
+			<Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}" />
+		</Style>
+	</UserControl.Styles>
 
-		<Button Grid.Column="2"
-					Content="Remove"
-					Command="{Binding RemoveCommand}"/>
+	<Grid ColumnDefinitions="*,Auto" Margin="4">
+		<CheckBox Grid.Column="0"
+						  IsChecked="{Binding IsChecked}"
+						  Content="{Binding Content}"
+						  VerticalAlignment="Center"
+						  Classes="HoverableArea"
+						  Padding="10,0,0,0"/>
+
+		<Button Grid.Column="1"
+				Command="{Binding RemoveCommand}">
+			<PathIcon Data="{DynamicResource DeleteIconData}" Foreground="Green"/>
+		</Button>
 	</Grid>
 </UserControl>
