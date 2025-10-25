@@ -1,0 +1,75 @@
+@startuml MVVM Async
+skinparam {
+    Sequence {
+        ArrowColor #555555
+        LifeLineBorderColor #888888
+        LifeLineBackgroundColor #F8F8F8
+        ParticipantBorderColor #307044
+        ParticipantBackgroundColor #DDFFA2
+        BoxBorderColor #6A0DAD
+    }
+    box {
+        BackgroundColor #EAEAF2
+        BorderColor #999999
+        FontSize 14
+    }
+}
+autonumber "0."
+title WPF MVVM Async File Parsing
+
+actor "User" as U #Lavender
+box "UI Thread" #E0FFEC
+    participant "Main UI" as M #ADD8E6
+    participant "VM Cmd" as C #FFD700
+    participant "XAML" as X #F0F8FF
+end box
+
+box "Background" #FFEFE0
+    participant "Scheduler" as S #F4A460
+    participant "Worker" as W #DC143C
+    participant "Progress<T>" as P #B0C4DE
+    participant "Sync.Ctx" as SC #C0C0C0
+end box
+
+' ==========================================================
+' UI Thread Start
+' ==========================================================
+U -> M : Click
+M -> C : Exec Cmd
+
+' == Dispatch ==
+C -> S : Task.Run(Parse)
+note left of S : UI Thread released
+S -> W : Start Work
+activate W #DC143C
+
+' ==========================================================
+' Marshal Progress Reporting
+' ==========================================================
+loop Parsing Loop
+    W -> P : Report(i)
+    P -> SC : Post(UI Action)
+    note right of P : Cross-thread Marshal
+    
+    SC -> M : Dispatch to UI Queue
+    
+    M -> X : Set ProgressVal (INPC)
+    X --> M : UI Refresh
+end
+
+' ==========================================================
+' Await Completion
+' ==========================================================
+W -> S : Task Completed
+deactivate W
+
+S -> SC : Post Continuation
+SC -> M : Resume Execution (AWAIT)
+activate M #ADD8E6
+
+M -> C : Final Update
+C -> X : Set Status/Content (INPC)
+note right of X #F0F8FF: Final UI Refresh
+
+deactivate M
+@enduml

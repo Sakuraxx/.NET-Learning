@@ -1,0 +1,46 @@
+﻿<Window x:Class="UpdateProgressBar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UpdateProgressBar"
+        mc:Ignorable="d"
+        Title="File Parser" Height="450" Width="600">
+
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Content="Choose a file to parse" Width="150" Height="30"
+                    Command="{Binding ParseFileCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsParsing}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <ProgressBar Width="200" Height="30" Margin="10,0,0,0"
+                         Maximum="100"
+                         Value="{Binding ProgressValue}"/>
+        </StackPanel>
+
+        <StatusBar DockPanel.Dock="Bottom" Height="25">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusText}"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <TextBlock Text="Parsed results:" FontWeight="Bold" DockPanel.Dock="Top" Margin="0,10,0,5"/>
+        <TextBox Text="{Binding ParsedContent}"
+                 AcceptsReturn="True"
+                 IsReadOnly="True"
+                 VerticalScrollBarVisibility="Auto"/>
+    </DockPanel>
+</Window>
